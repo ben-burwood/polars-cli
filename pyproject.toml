@@ -1,0 +1,13 @@
+[project]
+name = "polars-cli"
+version = "0.1"
+description = "Polars CLI"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "polars>=1.37.1",
+]
+
+[build-system]
+requires = ["uv_build"]
+build-backend = "uv_build"
