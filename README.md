@@ -10,6 +10,7 @@ The Polars CLI can be used for fairly rudimentary [Polars](https://pola.rs) usag
 - [X] Select Columns (comma seperated list)
 - [X] Drop Columns (comma seperated list)
 - [X] Rename Columns (comma seperated list)
+- [X] Cast Columns (comma seperated list)
 - [X] Gather for Thinning Datasets
 - [ ] Filter
 
@@ -22,5 +23,6 @@ The Polars CLI can be used for fairly rudimentary [Polars](https://pola.rs) usag
 - `--drop` - Drop Columns (as 'Name,Age')
 - `--select` - Select Columns (as 'Name,Age')
 - `--rename` - Rename Columns (as 'Name:name,Age:age')
+- `--cast` - Cast Columns (as 'Name:string,Age:uint32')
 - `--gather` - Gather Every x Columns - Thin the Dataset
 - `--lazy` - Execute Lazily (scan->sink)
