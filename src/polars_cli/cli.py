@@ -11,9 +11,10 @@ PARSER.add_argument("-g", "--gather", type=int, help="Gather Every Value - i.e. 
 PARSER.add_argument("--lazy", action="store_true", help="Use Lazy Evaluation")
 
 
-def main(
-    input: str, output: str | None = None, drop: str | None = None, select: str | None = None, gather: int | None = None, lazy: bool = False
-) -> None:
+def cli() -> None:
+    args = PARSER.parse_args()
+    input, output, drop, select, gather, lazy = args.input, args.output, args.drop, args.select, args.gather, args.lazy
+
     df = input_file(input, lazy=lazy)
 
     if gather:
@@ -32,9 +33,3 @@ def main(
 
     if output:
         output_file(df, output)
-
-
-if __name__ == "__main__":
-    args = PARSER.parse_args()
-    print(args)
-    main(args.input, args.output, args.drop, args.select, args.gather, args.lazy)
