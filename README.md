@@ -7,6 +7,6 @@ The Polars CLI can be used for fairly rudimentary [Polars](https://pola.rs)
 - [X] Read/Write from CSV, Parquet, JSON
   - [X] Globbing
   - [ ] S3 Cloud IO
-- [ ] Select Columns (comma seperated list)
-- [ ] Drop Columns (comma seperated list)
+- [X] Select Columns (comma seperated list)
+- [X] Drop Columns (comma seperated list)
 - [ ] Filter
