@@ -14,6 +14,7 @@ The Polars CLI can be used for fairly rudimentary [Polars](https://pola.rs) usag
 - [X] Sort for Ordering Datasets
 - [X] Head/Tail for Thinning Datasets to X Rows
 - [X] Gather for Thinning Datasets
+- [X] Unique for Removing Duplicate Rows
 - [ ] Filter
 
 ## Usage
@@ -30,4 +31,5 @@ The Polars CLI can be used for fairly rudimentary [Polars](https://pola.rs) usag
 - `--head 10` - Head Rows to Filter to
 - `--tail 10` - Tail Rows to Filter to
 - `--gather 10` - Gather Every x Columns - Thin the Dataset
+- `--unique` - Remove Duplicate Rows (at end of Execution so only for selected Columns)
 - `--lazy` - Execute Lazily (scan->sink)
