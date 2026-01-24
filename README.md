@@ -11,6 +11,7 @@ The Polars CLI can be used for fairly rudimentary [Polars](https://pola.rs) usag
 - [X] Drop Columns (comma seperated list)
 - [X] Rename Columns (comma seperated list)
 - [X] Cast Columns (comma seperated list)
+- [X] Head/Tail for Thinning Datasets to X Rows
 - [X] Gather for Thinning Datasets
 - [ ] Filter
 
@@ -18,11 +19,13 @@ The Polars CLI can be used for fairly rudimentary [Polars](https://pola.rs) usag
 
 `polars-cli`
 
-- `--input` - Input Filepath
-- `--output` - Output Filepath
-- `--drop` - Drop Columns (as 'Name,Age')
-- `--select` - Select Columns (as 'Name,Age')
-- `--rename` - Rename Columns (as 'Name:name,Age:age')
-- `--cast` - Cast Columns (as 'Name:string,Age:uint32')
-- `--gather` - Gather Every x Columns - Thin the Dataset
+- `--input *.csv` - Input Filepath
+- `--output output.csv` - Output Filepath
+- `--drop Name,Age` - Drop Columns (as 'Name,Age')
+- `--select Name,Age` - Select Columns (as 'Name,Age')
+- `--rename today:yesterday` - Rename Columns (as 'Name:name,Age:age')
+- `--cast today:date` - Cast Columns (as 'Name:string,Age:uint32')
+- `--head 10` - Head Rows to Filter to
+- `--tail 10` - Tail Rows to Filter to
+- `--gather 10` - Gather Every x Columns - Thin the Dataset
 - `--lazy` - Execute Lazily (scan->sink)

@@ -57,5 +57,6 @@ def cli() -> None:
         if select_list:
             df = df.select(select_list)
 
+    print(df)
     if output:
         output_file(df, output)
