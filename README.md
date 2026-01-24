@@ -31,7 +31,7 @@ The Polars CLI can be used for fairly rudimentary [Polars](https://pola.rs) usag
 - `--sort Name,Age` - Sort Columns (as 'Name:asc,Age:desc')
 - `--head 10` - Head Rows to Filter to
 - `--tail 10` - Tail Rows to Filter to
-- `--slice 10:20` - Slice Rows to Filter to (as 'start:end' where end is optional)
+- `--slice 10:20` - Slice Rows to Filter to (as 'start:length' where length is optional)
 - `--gather 10` - Gather Every x Columns - Thin the Dataset
 - `--unique` - Remove Duplicate Rows (at end of Execution so only for selected Columns)
 - `--lazy` - Execute Lazily (scan->sink)

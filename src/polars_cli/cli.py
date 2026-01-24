@@ -13,9 +13,10 @@ PARSER.add_argument("--drop", type=str, help="List of Columns to Drop (comma-sep
 PARSER.add_argument("--rename", type=str, help="List of Columns to Rename (comma-seperated)")
 PARSER.add_argument("--cast", type=str, help="List of Columns to Cast (comma-seperated)")
 PARSER.add_argument("--sort", type=str, help="List of Columns to Sort (comma-seperated)")
+PARSER.add_argument("--reverse", action="store_true", help="Reverse Sort Order")
 PARSER.add_argument("--head", type=int, help="Head Rows to Keep")
 PARSER.add_argument("--tail", type=int, help="Tail Rows to Keep")
-PARSER.add_argument("--slice", type=str, help="Slice Rows to Keep (start:end?) Inclusive")
+PARSER.add_argument("--slice", type=str, help="Slice Rows to Keep (start:length?)")
 PARSER.add_argument("--gather", type=int, help="Gather Every Value - i.e. 3 means take every Third Row")
 PARSER.add_argument("--unique", action="store_true", help="Remove Duplicate Rows")
 PARSER.add_argument("--lazy", action="store_true", help="Use Lazy Evaluation")
@@ -23,7 +24,7 @@ PARSER.add_argument("--lazy", action="store_true", help="Use Lazy Evaluation")
 
 def cli() -> None:
     args = PARSER.parse_args()
-    input, output, drop, select, rename, cast, sort, head, tail, slice, gather, unique, lazy = (
+    input, output, drop, select, rename, cast, sort, reverse, head, tail, slice, gather, unique, lazy = (
         args.input,
         args.output,
         args.drop,
@@ -31,6 +32,7 @@ def cli() -> None:
         args.rename,
         args.cast,
         args.sort,
+        args.reverse,
         args.head,
         args.tail,
         args.slice,
@@ -67,6 +69,8 @@ def cli() -> None:
     sort_list = sort.split(",") if sort else None
     if sort_list:
         df = df.sort(sort_list)
+    if reverse:
+        df = df.reverse()
 
     if unique:
         df = df.unique()
