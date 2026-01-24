@@ -20,11 +20,12 @@ PARSER.add_argument("--slice", type=str, help="Slice Rows to Keep (start:length?
 PARSER.add_argument("--gather", type=int, help="Gather Every Value - i.e. 3 means take every Third Row")
 PARSER.add_argument("--unique", action="store_true", help="Remove Duplicate Rows")
 PARSER.add_argument("--lazy", action="store_true", help="Use Lazy Evaluation")
+PARSER.add_argument("--schema", action="store_true", help="Print Schema")
 
 
 def cli() -> None:
     args = PARSER.parse_args()
-    input, output, drop, select, rename, cast, sort, reverse, head, tail, slice, gather, unique, lazy = (
+    input, output, drop, select, rename, cast, sort, reverse, head, tail, slice, gather, unique, lazy, schema = (
         args.input,
         args.output,
         args.drop,
@@ -39,6 +40,7 @@ def cli() -> None:
         args.gather,
         args.unique,
         args.lazy,
+        args.schema,
     )
 
     df = input_file(input, lazy=lazy)
@@ -84,6 +86,9 @@ def cli() -> None:
         df = df.tail(tail)
     if gather:
         df.gather_every(gather)
+
+    if schema:
+        print(df.schema)
 
     print(df)
     if output:
