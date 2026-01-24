@@ -8,23 +8,29 @@ from polars_cli.io import input_file, output_file
 PARSER = argparse.ArgumentParser(prog="Polars CLI", description="Polars CLI is a command-line interface for the Polars DataFrame Library")
 PARSER.add_argument("-i", "--input", type=str, required=True, help="Input File Path - with Extension")
 PARSER.add_argument("-o", "--output", type=str, help="Output File Path - with Extension")
-PARSER.add_argument("-s", "--select", type=str, help="List of Columns to Select (comma-seperated)")
-PARSER.add_argument("-d", "--drop", type=str, help="List of Columns to Drop (comma-seperated)")
-PARSER.add_argument("-r", "--rename", type=str, help="List of Columns to Rename (comma-seperated)")
-PARSER.add_argument("-c", "--cast", type=str, help="List of Columns to Cast (comma-seperated)")
-PARSER.add_argument("-g", "--gather", type=int, help="Gather Every Value - i.e. 3 means take every Third Row")
+PARSER.add_argument("--select", type=str, help="List of Columns to Select (comma-seperated)")
+PARSER.add_argument("--drop", type=str, help="List of Columns to Drop (comma-seperated)")
+PARSER.add_argument("--rename", type=str, help="List of Columns to Rename (comma-seperated)")
+PARSER.add_argument("--cast", type=str, help="List of Columns to Cast (comma-seperated)")
+PARSER.add_argument("--sort", type=str, help="List of Columns to Sort (comma-seperated)")
+PARSER.add_argument("--head", type=int, help="Head Rows to Keep")
+PARSER.add_argument("--tail", type=int, help="Tail Rows to Keep")
+PARSER.add_argument("--gather", type=int, help="Gather Every Value - i.e. 3 means take every Third Row")
 PARSER.add_argument("--lazy", action="store_true", help="Use Lazy Evaluation")
 
 
 def cli() -> None:
     args = PARSER.parse_args()
-    input, output, drop, select, rename, cast, gather, lazy = (
+    input, output, drop, select, rename, cast, sort, head, tail, gather, lazy = (
         args.input,
         args.output,
         args.drop,
         args.select,
         args.rename,
         args.cast,
+        args.sort,
+        args.head,
+        args.tail,
         args.gather,
         args.lazy,
     )
@@ -43,9 +49,6 @@ def cli() -> None:
         }
         df = df.cast(cast_cmds)
 
-    if gather:
-        df.gather_every(gather)
-
     drop_list = set(drop.split(",")) if drop else None
     select_list = set(select.split(",")) if select else None
     if drop_list or select_list:
@@ -56,6 +59,17 @@ def cli() -> None:
             df = df.drop(drop_list)
         if select_list:
             df = df.select(select_list)
+
+    sort_list = sort.split(",") if sort else None
+    if sort_list:
+        df = df.sort(sort_list)
+
+    if head:
+        df = df.head(head)
+    if tail:
+        df = df.tail(tail)
+    if gather:
+        df.gather_every(gather)
 
     print(df)
     if output:
