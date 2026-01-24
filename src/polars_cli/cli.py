@@ -15,6 +15,7 @@ PARSER.add_argument("--cast", type=str, help="List of Columns to Cast (comma-sep
 PARSER.add_argument("--sort", type=str, help="List of Columns to Sort (comma-seperated)")
 PARSER.add_argument("--head", type=int, help="Head Rows to Keep")
 PARSER.add_argument("--tail", type=int, help="Tail Rows to Keep")
+PARSER.add_argument("--slice", type=str, help="Slice Rows to Keep (start:end?) Inclusive")
 PARSER.add_argument("--gather", type=int, help="Gather Every Value - i.e. 3 means take every Third Row")
 PARSER.add_argument("--unique", action="store_true", help="Remove Duplicate Rows")
 PARSER.add_argument("--lazy", action="store_true", help="Use Lazy Evaluation")
@@ -22,7 +23,7 @@ PARSER.add_argument("--lazy", action="store_true", help="Use Lazy Evaluation")
 
 def cli() -> None:
     args = PARSER.parse_args()
-    input, output, drop, select, rename, cast, sort, head, tail, gather, unique, lazy = (
+    input, output, drop, select, rename, cast, sort, head, tail, slice, gather, unique, lazy = (
         args.input,
         args.output,
         args.drop,
@@ -32,6 +33,7 @@ def cli() -> None:
         args.sort,
         args.head,
         args.tail,
+        args.slice,
         args.gather,
         args.unique,
         args.lazy,
@@ -69,6 +71,9 @@ def cli() -> None:
     if unique:
         df = df.unique()
 
+    if slice:
+        start, _, end = slice.partition(":")
+        df = df.slice(int(start), int(end) if end else None)
     if head:
         df = df.head(head)
     if tail:
