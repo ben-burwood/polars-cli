@@ -21,11 +21,12 @@ PARSER.add_argument("--gather", type=int, help="Gather Every Value - i.e. 3 mean
 PARSER.add_argument("--unique", action="store_true", help="Remove Duplicate Rows")
 PARSER.add_argument("--lazy", action="store_true", help="Use Lazy Evaluation")
 PARSER.add_argument("--schema", action="store_true", help="Print Schema")
+PARSER.add_argument("--describe", action="store_true", help="Print Descriptive Statistics")
 
 
 def cli() -> None:
     args = PARSER.parse_args()
-    input, output, drop, select, rename, cast, sort, reverse, head, tail, slice, gather, unique, lazy, schema = (
+    input, output, drop, select, rename, cast, sort, reverse, head, tail, slice, gather, unique, lazy, schema, describe = (
         args.input,
         args.output,
         args.drop,
@@ -41,6 +42,7 @@ def cli() -> None:
         args.unique,
         args.lazy,
         args.schema,
+        args.describe,
     )
 
     df = input_file(input, lazy=lazy)
@@ -89,6 +91,8 @@ def cli() -> None:
 
     if schema:
         print(df.schema)
+    if describe:
+        print(df.describe())
 
     print(df)
     if output:
