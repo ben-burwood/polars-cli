@@ -16,6 +16,10 @@ The Polars CLI can be used for fairly rudimentary [Polars](https://pola.rs) usag
 - [X] Gather for Thinning Datasets
 - [X] Unique for Removing Duplicate Rows
 
+## Installation
+
+Use `uv tool` for easy installation : `uv tool install git+https://github.com/ben-burwood/polars-cli` 
+
 ## Usage
 
 `polars`
