@@ -6,7 +6,7 @@ from polars_cli.datatype import CastableDataType
 from polars_cli.io import input_file, output_file
 
 PARSER = argparse.ArgumentParser(prog="Polars CLI", description="Polars CLI is a command-line interface for the Polars DataFrame Library")
-PARSER.add_argument("-i", "--input", type=str, required=True, help="Input File Path - with Extension")
+PARSER.add_argument("input", type=str, help="Input File Path - with Extension")
 PARSER.add_argument("-o", "--output", type=str, help="Output File Path - with Extension")
 PARSER.add_argument("--select", type=str, help="List of Columns to Select (comma-seperated)")
 PARSER.add_argument("--drop", type=str, help="List of Columns to Drop (comma-seperated)")
@@ -26,9 +26,7 @@ PARSER.add_argument("--describe", action="store_true", help="Print Descriptive S
 
 def cli() -> None:
     args = PARSER.parse_args()
-    input, output, drop, select, rename, cast, sort, reverse, head, tail, slice, gather, unique, lazy, schema, describe = (
-        args.input,
-        args.output,
+    drop, select, rename, cast, sort, reverse, head, tail, slice, gather, unique, lazy, schema, describe = (
         args.drop,
         args.select,
         args.rename,
@@ -45,7 +43,7 @@ def cli() -> None:
         args.describe,
     )
 
-    df = input_file(input, lazy=lazy)
+    df = input_file(args.input, lazy=lazy)
 
     rename_list = set(rename.split(",")) if rename else None
     if rename_list:
@@ -95,5 +93,5 @@ def cli() -> None:
         print(df.describe())
 
     print(df)
-    if output:
-        output_file(df, output)
+    if args.output:
+        output_file(df, args.output)
