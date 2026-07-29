@@ -19,15 +19,15 @@ PARSER.add_argument("--tail", type=int, help="Tail Rows to Keep")
 PARSER.add_argument("--slice", type=str, help="Slice Rows to Keep (start:length?)")
 PARSER.add_argument("--gather", type=int, help="Gather Every Value - i.e. 3 means take every Third Row")
 PARSER.add_argument("--unique", action="store_true", help="Remove Duplicate Rows")
-PARSER.add_argument("--lazy", action="store_true", help="Use Lazy Evaluation")
 PARSER.add_argument("--schema", action="store_true", help="Print Schema")
 PARSER.add_argument("--describe", action="store_true", help="Print Descriptive Statistics")
+PARSER.add_argument("--explain", action="store_true", help="Explain the Execution Plan")
 
 
 def cli() -> None:
     args = PARSER.parse_args()
 
-    df = input_file(args.input, lazy=args.lazy)
+    df = input_file(args.input, lazy=True)
 
     ## RENAME
     rename_list = set(args.rename.split(",")) if args.rename else None
@@ -77,10 +77,12 @@ def cli() -> None:
         df.gather_every(args.gather)
 
     if args.schema:
-        print(df.schema)
+        print(df.collect_schema())
     if args.describe:
         print(df.describe())
+    if args.explain:
+        print(df.explain())
 
-    print(df)
+    print(df.collect())
     if args.output:
         output_file(df, args.output)

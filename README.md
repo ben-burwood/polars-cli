@@ -32,4 +32,3 @@ The Polars CLI can be used for fairly rudimentary [Polars](https://pola.rs) usag
 - `--slice 10:20` - Slice Rows to Filter to (as 'start:length' where length is optional)
 - `--gather 10` - Gather Every x Columns - Thin the Dataset
 - `--unique` - Remove Duplicate Rows (at end of Execution so only for selected Columns)
-- `--lazy` - Execute Lazily (scan->sink)
