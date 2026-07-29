@@ -6,7 +6,6 @@ The Polars CLI can be used for fairly rudimentary [Polars](https://pola.rs) usag
 
 - [X] Read/Write from CSV, Parquet, JSON
   - [X] Globbing
-  - [ ] S3 Cloud IO - Requires `s3fs` Dependency
 - [X] Select Columns (comma seperated list)
 - [X] Drop Columns (comma seperated list)
 - [X] Rename Columns (comma seperated list)
@@ -16,13 +15,12 @@ The Polars CLI can be used for fairly rudimentary [Polars](https://pola.rs) usag
 - [X] Slice for Thinning Datasets
 - [X] Gather for Thinning Datasets
 - [X] Unique for Removing Duplicate Rows
-- [ ] Filter
 
 ## Usage
 
-`polars-cli`
+`polars`
 
-- `--input *.csv` - Input Filepath
+- `*.csv` - Input Filepath
 - `--output output.csv` - Output Filepath
 - `--drop Name,Age` - Drop Columns (as 'Name,Age')
 - `--select Name,Age` - Select Columns (as 'Name,Age')

@@ -26,70 +26,59 @@ PARSER.add_argument("--describe", action="store_true", help="Print Descriptive S
 
 def cli() -> None:
     args = PARSER.parse_args()
-    drop, select, rename, cast, sort, reverse, head, tail, slice, gather, unique, lazy, schema, describe = (
-        args.drop,
-        args.select,
-        args.rename,
-        args.cast,
-        args.sort,
-        args.reverse,
-        args.head,
-        args.tail,
-        args.slice,
-        args.gather,
-        args.unique,
-        args.lazy,
-        args.schema,
-        args.describe,
-    )
 
-    df = input_file(args.input, lazy=lazy)
+    df = input_file(args.input, lazy=args.lazy)
 
-    rename_list = set(rename.split(",")) if rename else None
+    ## RENAME
+    rename_list = set(args.rename.split(",")) if args.rename else None
     if rename_list:
         rename_cmds: dict[str, str] = {old: new for old, new in (rn.split(":") for rn in rename_list)}
         df = df.rename(rename_cmds)
 
-    cast_list = set(cast.split(",")) if cast else None
+    # CAST
+    cast_list = set(args.cast.split(",")) if args.cast else None
     if cast_list:
         cast_cmds: dict[str, pl.DataType] = {
             col: CastableDataType.from_string(datatype).polars_datatype for col, datatype in (cs.split(":") for cs in cast_list)
         }
         df = df.cast(cast_cmds)
 
-    drop_list = set(drop.split(",")) if drop else None
-    select_list = set(select.split(",")) if select else None
+    # DROP / SELECT PROJECTION
+    drop_list = set(args.drop.split(",")) if args.drop else None
+    select_list = set(args.select.split(",")) if args.select else None
     if drop_list or select_list:
-        if drop_list and select_list:
-            if both := drop_list.intersection(select_list):
-                raise ValueError(f"Cannot Select and Drop the same Column(s) : {both}")
+        if drop_list and select_list and (both := drop_list.intersection(select_list)):
+            raise ValueError(f"Cannot Select and Drop the same Column(s) : {both}")
         if drop_list:
             df = df.drop(drop_list)
         if select_list:
             df = df.select(select_list)
 
-    sort_list = sort.split(",") if sort else None
+    # SORT
+    sort_list = args.sort.split(",") if args.sort else None
     if sort_list:
         df = df.sort(sort_list)
-    if reverse:
+    if args.reverse:
         df = df.reverse()
 
-    if unique:
+    # UNIQUE
+    if args.unique:
         df = df.unique()
 
-    if slice:
-        start, _, end = slice.partition(":")
+    # LIMIT
+    if args.slice:
+        start, _, end = args.slice.partition(":")
         df = df.slice(int(start), int(end) if end else None)
-    if head:
-        df = df.head(head)
-    if tail:
-        df = df.tail(tail)
-    if gather:
-        df.gather_every(gather)
+    if args.head:
+        df = df.head(args.head)
+    if args.tail:
+        df = df.tail(args.tail)
+    if args.gather:
+        df.gather_every(args.gather)
 
-    if schema:
+    if args.schema:
         print(df.schema)
-    if describe:
+    if args.describe:
         print(df.describe())
 
     print(df)
