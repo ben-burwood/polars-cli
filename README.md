@@ -2,20 +2,6 @@
 
 The Polars CLI can be used for fairly rudimentary [Polars](https://pola.rs) usage.
 
-## Features
-
-- [X] Read/Write from CSV, Parquet, JSON
-  - [X] Globbing
-- [X] Select Columns (comma seperated list)
-- [X] Drop Columns (comma seperated list)
-- [X] Rename Columns (comma seperated list)
-- [X] Cast Columns (comma seperated list)
-- [X] Sort for Ordering Datasets
-- [X] Head/Tail for Thinning Datasets to X Rows
-- [X] Slice for Thinning Datasets
-- [X] Gather for Thinning Datasets
-- [X] Unique for Removing Duplicate Rows
-
 ## Installation
 
 Use `uv tool` for easy installation : `uv tool install git+https://github.com/ben-burwood/polars-cli` 
