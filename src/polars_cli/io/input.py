@@ -1,3 +1,5 @@
+import logging
+
 import polars as pl
 
 from polars_cli.io.filetype import FileType
@@ -11,6 +13,9 @@ def _scan_file(filepath: str) -> pl.LazyFrame:
             return pl.scan_csv(filepath)
         case FileType.PARQUET:
             return pl.scan_parquet(filepath)
+        case FileType.JSON:
+            logging.info("JSON cannot be Lazily Scanned - Resorting to read+lazy")
+            return pl.read_json(filepath).lazy()
         case _:
             raise ValueError(f"Unsupported file type: {extension} for Scan")
 

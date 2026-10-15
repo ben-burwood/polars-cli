@@ -1,3 +1,5 @@
+import logging
+
 import polars as pl
 
 from polars_cli.io.filetype import FileType
@@ -11,6 +13,9 @@ def _sink_file(df: pl.LazyFrame, filepath: str) -> None:
             return df.sink_csv(filepath)
         case FileType.PARQUET:
             return df.sink_parquet(filepath)
+        case FileType.JSON:
+            logging.info("JSON cannot be Lazily Sunk - Resorting to collect+write")
+            return df.collect().write_json(filepath)
         case _:
             raise ValueError(f"Unsupported file type: {extension} for Sink")
 
